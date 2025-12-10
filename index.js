@@ -1,16 +1,13 @@
+import express from "express"
 import http from 'http';
-const server = http.createServer((req, res)=>{
-    console.log(req.method);
-    if(req.url === "/users"){
-        res.writeHead(200, {"Content-Type":"application/json"});
-        res.end(JSON.stringify({name:"Siddu"}))
-    }
-    else{
-        res.writeHead(200, {"Content-Type":"text/plain"});
-        res.end("Hello This is from Backend");
-    }
 
-});
-server.listen(8080,()=>{
+const app = express()
+
+import { getStudents, addStudents, updateStudents } from "./Routers/StudentRouter.js"
+app.use('/get-data', getStudents);
+app.use('/post-data', addStudents);
+app.use('/update', updateStudents);
+const server = http.createServer(app);
+server.listen(8080, () => {
     console.log(`Server is Running at Port ${8080}`);
 })
